@@ -41,6 +41,7 @@ void alarm_insert (alarm_t *alarm)
 {
     int status;
     alarm_t **last, *next;
+    int flag;
 
     /*
      * LOCKING PROTOCOL:
@@ -48,17 +49,39 @@ void alarm_insert (alarm_t *alarm)
      * This routine requires that the caller have locked the
      * alarm_mutex!
      */
+    flag = 0;
     last = &alarm_list;
     next = *last;
-    while (next != NULL) {
-        if (next->time >= alarm->time) {
-            alarm->link = next;
-            *last = alarm;
-            break;
-        }
-        last = &next->link;
-        next = next->link;
+    while (next != NULL)
+    {
+ 	if (next->alarmNum == alarm->alarmNum)
+	{
+	    strcpy(next->message, alarm->message);
+	    next->time = alarm->time;
+    	    next->seconds = alarm->seconds;
+	    printf("Replacement Alarm Request With Message Number (%d) " 	
+		   "Received at %d: %s\n",next->alarmNum, time(NULL),
+		   next->message);
+	    flag = 1;
+	    break;
+	}
+	last = &next->link;
+        next = next->link;  
     }
+    if (!flag)
+    {
+	    last = &alarm_list;
+    	    next = *last;
+	    while (next != NULL) {
+		if (next->alarmNum >= alarm->alarmNum) {
+		    alarm->link = next;
+		    *last = alarm;
+		    break;
+		}
+		last = &next->link;
+		next = next->link;
+    	    }
+     }
     /*
      * If we reached the end of the list, insert the new alarm
      * there.  ("next" is NULL, and "last" points to the link
@@ -81,8 +104,8 @@ void alarm_insert (alarm_t *alarm)
      * work), or if the new alarm comes before the one on
      * which the alarm thread is waiting.
      */
-    if (current_alarm == 0 || alarm->time < current_alarm) {
-        current_alarm = alarm->time;
+    if (current_alarm == 0 || alarm->alarmNum < current_alarm) {
+        current_alarm = alarm->alarmNum;
         status = pthread_cond_signal (&alarm_cond);
         if (status != 0)
             err_abort (status, "Signal cond");
@@ -131,8 +154,8 @@ void *alarm_thread (void *arg)
 #endif
             cond_time.tv_sec = alarm->time;
             cond_time.tv_nsec = 0;
-            current_alarm = alarm->time;
-            while (current_alarm == alarm->time) {
+            current_alarm = alarm->alarmNum;
+            while (current_alarm == alarm->alarmNum) {
                 status = pthread_cond_timedwait (
                     &alarm_cond, &alarm_mutex, &cond_time);
                 if (status == ETIMEDOUT) {
