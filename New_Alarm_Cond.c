@@ -26,6 +26,7 @@ typedef struct alarm_tag {
     int                 seconds;
     time_t              time;   /* seconds from EPOCH */
     char                message[64];
+    int			alarmNum; /* the message number */
 } alarm_t;
 
 pthread_mutex_t alarm_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -158,12 +159,14 @@ int main (int argc, char *argv[])
     char line[128];
     alarm_t *alarm;
     pthread_t thread;
+    int flag;
 
     status = pthread_create (
         &thread, NULL, alarm_thread, NULL);
     if (status != 0)
         err_abort (status, "Create alarm thread");
     while (1) {
+	flag = 1;
         printf ("Alarm> ");
         if (fgets (line, sizeof (line), stdin) == NULL) exit (0);
         if (strlen (line) <= 1) continue;
@@ -176,11 +179,23 @@ int main (int argc, char *argv[])
          * (%64[^\n]), consisting of up to 64 characters
          * separated from the seconds by whitespace.
          */
-        if (sscanf (line, "%d %64[^\n]", 
-            &alarm->seconds, alarm->message) < 2) {
-            fprintf (stderr, "Bad command\n");
-            free (alarm);
-        } else {
+        if (sscanf (line, "%d Message(%d) %64[^\n]", 
+            &alarm->seconds, &alarm->alarmNum, alarm->message) < 3) 
+	    if (sscanf (line, "Cancel: Message(%d)",
+	        &alarm->alarmNum) < 1)
+            {
+            	fprintf (stderr, "Bad command\n");
+           	free (alarm);
+		flag = 0;
+	    }
+	    else
+	    {
+		alarm->seconds = 0;
+		strcpy(alarm->message,"Cancel command");
+		flag = 1;
+	    }
+        if (flag) 
+        {
             status = pthread_mutex_lock (&alarm_mutex);
             if (status != 0)
                 err_abort (status, "Lock mutex");
