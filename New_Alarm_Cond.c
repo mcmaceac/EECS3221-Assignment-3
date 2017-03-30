@@ -50,15 +50,14 @@ int searchAlarmA(alarm_t *alarm)
     next = *last;
     while (next != NULL)
     {
-	printf("Searching...\n");
- 	if (next->alarmNum == alarm->alarmNum
-		&& next->type == 1)
-	{
-	    flag = 1;
-	    break;
-	}
-	last = &next->link;
-        next = next->link;
+		/*printf("Searching...\n");*/
+	 	if (next->alarmNum == alarm->alarmNum && next->type == 1)
+		{
+			flag = 1;
+			break;
+		}
+		last = &next->link;
+		next = next->link;
     }
     //printf("Done searching\n");
     return flag;
@@ -79,14 +78,14 @@ int searchAlarmB(alarm_t *alarm)
     next = *last;
     while (next != NULL)
     {
- 	if (next->alarmNum == alarm->alarmNum
-		&& next->type == 0)
-	{
-	    flag = 1;
-	    break;
-	}
-	last = &next->link;
-        next = next->link;
+	 	if (next->alarmNum == alarm->alarmNum
+			&& next->type == 0)
+		{
+			flag = 1;
+			break;
+		}
+		last = &next->link;
+		next = next->link;
     }
     return flag;
 }
@@ -105,13 +104,13 @@ void replaceAlarmA(alarm_t *alarm)
     {
         if (next->alarmNum == alarm->alarmNum
 		&& next->type == 1)
-	{
-	    strcpy(next->message, alarm->message);
+		{
+	    	strcpy(next->message, alarm->message);
     	    next->time = alarm->time;
     	    next->seconds = alarm->seconds;
-	    break;
-	}
-	last = &next->link;
+	    	break;
+		}
+		last = &next->link;
         next = next->link;
     }
 }
@@ -143,70 +142,72 @@ void alarm_insert (alarm_t *alarm)
 	    //printf("%d\n", flagA);
 	    if(flagA) 
 	    {
-		printf("Replacement Alarm Request With Message Number (%d) " 	
+			printf("Replacement Alarm Request With Message Number (%d) " 	
 			   "Received at %d: %s\n",alarm->alarmNum, time(NULL),
 			   alarm->message);
-		replaceAlarmA(alarm);
+			replaceAlarmA(alarm);
 	    }
-	    if (!flagA)
+        if (!flagA)
 	    {
-		printf("First Alarm Request With Message Number (%d) " 	
-			   "Received at %d: %s\n",alarm->alarmNum, time(NULL),
-			   alarm->message);
-		last = &alarm_list;
-	    	next = *last;
-		while (next != NULL) {
-		    	if (next->alarmNum >= alarm->alarmNum) {
-			    alarm->link = next;
-			    *last = alarm;
-			    break;
-			}
-			last = &next->link;
-			next = next->link;
-	    	}
-		
-		if (next == NULL) {
-			*last = alarm;
-			alarm->link = NULL;
-		}
-	     }
-     }
-     else
-     {
-	   flagA = searchAlarmA(alarm);
-	   if(!flagA) printf("Error: No Alarm Request With Message Number (%d) " 	
-			   "to Cancel!\n",alarm->alarmNum);
-	   if(flagA)
-	   {
-		flagB=searchAlarmB(alarm);
-		if(flagB) printf("Error: More Than One Request to Cancel "
-			   "Alarm Request With Message Number (%d)!\n"
-		           ,alarm->alarmNum);
-		else
-		{
-			printf("Cancel Alarm Request With Message Number (%d) " 	
+			printf("First Alarm Request With Message Number (%d) " 	
 			   "Received at %d: %s\n",alarm->alarmNum, time(NULL),
 			   alarm->message);
 			last = &alarm_list;
-	    		next = *last;
-			while (next != NULL) {
-		    		if (next->alarmNum >= alarm->alarmNum) {
-			    	alarm->link = next;
-			    	*last = alarm;
-			   	 break;
+	    	next = *last;
+			while (next != NULL) 
+			{
+		    	if (next->alarmNum >= alarm->alarmNum) {
+					alarm->link = next;
+					*last = alarm;
+					break;
 				}
-			last = &next->link;
-			next = next->link;
+				last = &next->link;
+				next = next->link;
+	    	}
+		
+			if (next == NULL) {
+				*last = alarm;
+				alarm->link = NULL;
 			}
-	    	}		
-	   }
+        }
+    }
+    else
+    {
+		flagA = searchAlarmA(alarm);
+		if(!flagA) printf("Error: No Alarm Request With Message Number (%d) " 	
+			   "to Cancel!\n",alarm->alarmNum);
+			if(flagA)
+			{
+				flagB=searchAlarmB(alarm);
+				if(flagB) printf("Error: More Than One Request to Cancel "
+					   "Alarm Request With Message Number (%d)!\n"
+						   ,alarm->alarmNum);
+				else
+				{
+					printf("Cancel Alarm Request With Message Number (%d) " 	
+					   "Received at %d: %s\n",alarm->alarmNum, time(NULL),
+					   alarm->message);
+					last = &alarm_list;
+						next = *last;
+					while (next != NULL) 
+					{
+						if (next->alarmNum >= alarm->alarmNum) 
+						{
+							alarm->link = next;
+							*last = alarm;
+					   	 	break;
+						}
+						last = &next->link;
+						next = next->link;
+					}
+				}		
+			}
      }
     
 #ifdef DEBUG
     printf ("[list: ");
     for (next = alarm_list; next != NULL; next = next->link)
-        printf ("%d(%d)[\"%s\"] ", next->time,
-            next->time - time (NULL), next->message);
+        printf ("%d(%d)[\"%s\"] ", next->time, next->time - time (NULL), next->message);
     printf ("]\n");
 #endif
     /*
@@ -215,7 +216,8 @@ void alarm_insert (alarm_t *alarm)
      * work), or if the new alarm comes before the one on
      * which the alarm thread is waiting.
      */
-    if (current_alarm == 0 || alarm->alarmNum < current_alarm) {
+    if (current_alarm == 0 || alarm->alarmNum < current_alarm) 
+	{
         current_alarm = alarm->alarmNum;
         status = pthread_cond_signal (&alarm_cond);
         if (status != 0)
@@ -242,23 +244,27 @@ void *alarm_thread (void *arg)
     status = pthread_mutex_lock (&alarm_mutex);
     if (status != 0)
         err_abort (status, "Lock mutex");
-    while (1) {
+    while (1) 
+	{
         /*
          * If the alarm list is empty, wait until an alarm is
          * added. Setting current_alarm to 0 informs the insert
          * routine that the thread is not busy.
          */
         current_alarm = 0;
-        while (alarm_list == NULL) {
+        while (alarm_list == NULL) 
+		{
             status = pthread_cond_wait (&alarm_cond, &alarm_mutex);
             if (status != 0)
                 err_abort (status, "Wait on cond");
-            }
+		}
         alarm = alarm_list;
         alarm_list = alarm->link; /** **/
         now = time (NULL);
         expired = 0;
-        if (alarm->time > now) {
+
+        if (alarm->time > now) 
+		{
 #ifdef DEBUG
             printf ("[waiting: %d(%d)\"%s\"]\n", alarm->time,
                 alarm->time - time (NULL), alarm->message);
@@ -266,10 +272,12 @@ void *alarm_thread (void *arg)
             cond_time.tv_sec = alarm->time;
             cond_time.tv_nsec = 0;
             current_alarm = alarm->alarmNum;
-            while (current_alarm == alarm->alarmNum) {
+            while (current_alarm == alarm->alarmNum) 
+			{
                 status = pthread_cond_timedwait (
                     &alarm_cond, &alarm_mutex, &cond_time);
-                if (status == ETIMEDOUT) {
+                if (status == ETIMEDOUT) 
+				{
                     expired = 1;
                     break;
                 }
@@ -278,9 +286,11 @@ void *alarm_thread (void *arg)
             }
             if (!expired)
                 alarm_insert (alarm);
-        } else
+        } 
+		else
             expired = 1;
-        if (expired) {
+        if (expired) 
+		{
             printf ("(%d) %s\n", alarm->seconds, alarm->message);
             free (alarm);
         }
@@ -316,21 +326,22 @@ int main (int argc, char *argv[])
 	//printf("Input Read\n");
         if (sscanf (line, "%d Message(%d) %64[^\n]", 
             &alarm->seconds, &alarm->alarmNum, alarm->message) < 3) 
-	    if (sscanf (line, "Cancel: Message(%d)",
-	        &alarm->alarmNum) < 1)
-            {
-            	fprintf (stderr, "Bad command\n");
-           	free (alarm);
-		flag = 0;
-	    }
-	    else
-	    {
-		alarm->seconds = 0;
-		strcpy(alarm->message,"Cancel command");
-		alarm->type = 0;
-		flag = 1;
-	    }
-        else alarm->type = 1;
+			if (sscanf (line, "Cancel: Message(%d)",
+			    &alarm->alarmNum) < 1)
+		    {
+		        fprintf (stderr, "Bad command\n");
+		       	free (alarm);
+				flag = 0;
+			}
+			else
+			{
+				alarm->seconds = 0;
+				strcpy(alarm->message,"Cancel command");
+				alarm->type = 0;
+				flag = 1;
+			}
+        else 
+			alarm->type = 1;
 	//printf("Alarm created\n");
         if (flag) 
         {
