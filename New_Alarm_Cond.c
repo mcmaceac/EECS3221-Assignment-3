@@ -111,6 +111,7 @@ void replaceAlarmA(alarm_t *alarm)
 	    strcpy(next->message, alarm->message);
     	    next->time = alarm->time;
     	    next->seconds = alarm->seconds;
+	    next->modified = 1;
 	    break;
 	}
 	last = &next->link;
@@ -233,7 +234,9 @@ void *periodic_display_thread (void *arg)
     alarm_t *alarm;
     int status;
     int sleeptime;
+    int flag;
 	
+    flag = 0;
     alarm = arg;
     while(1)
     {
@@ -243,6 +246,17 @@ void *periodic_display_thread (void *arg)
 	if (alarm->modified == 0)
 	    printf("Alarm With Message Number (%d) Displayed at %d: %s\n",
 		    alarm->alarmNum, time(NULL), alarm->message);
+	if (alarm->modified == 1 && flag)
+	{
+	    printf("Replacement Alarm With Message Number (%d) Displayed at "
+		   "%d: %s\n", alarm->alarmNum, time(NULL), alarm->message);
+	}
+	if (alarm->modified == 1 && !flag)
+	{
+	    printf("Alarm With Message Number (%d) Replaced at %d: %s\n",
+		    alarm->alarmNum, time(NULL), alarm->message);
+	    flag = 1;
+	}
 	sleeptime = alarm->seconds;
 	status = pthread_mutex_unlock (&alarm_mutex);
             if (status != 0)
