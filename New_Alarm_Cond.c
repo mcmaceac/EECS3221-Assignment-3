@@ -255,7 +255,7 @@ void *alarm_thread (void *arg)
                 err_abort (status, "Wait on cond");
             }
         alarm = alarm_list;
-        alarm_list = alarm->link;
+        alarm_list = alarm->link; /** **/
         now = time (NULL);
         expired = 0;
         if (alarm->time > now) {
