@@ -27,6 +27,7 @@ typedef struct alarm_tag {
     time_t              time;   /* seconds from EPOCH */
     char                message[64];
     int			alarmNum; /* the message number */
+    int			type; /*alarm type: 1 = type A, 0 = Type B*/
 } alarm_t;
 
 pthread_mutex_t alarm_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -35,13 +36,94 @@ alarm_t *alarm_list = NULL;
 time_t current_alarm = 0;
 
 /*
+ * Searches for a type A alarm in the alarm list
+ * If alarm is found, returns 1
+ * Returns 0 otherwise
+ */
+int searchAlarmA(alarm_t *alarm)
+{
+    alarm_t **last, *next;
+    int flag;
+
+    flag = 0;
+    last = &alarm_list;
+    next = *last;
+    while (next != NULL)
+    {
+	printf("Searching...\n");
+ 	if (next->alarmNum == alarm->alarmNum
+		&& next->type == 1)
+	{
+	    flag = 1;
+	    break;
+	}
+	last = &next->link;
+        next = next->link;
+    }
+    //printf("Done searching\n");
+    return flag;
+}
+
+/*
+ * Searches for a type B alarm in the alarm list
+ * If alarm is found, returns 1
+ * Returns 0 otherwise
+ */
+int searchAlarmB(alarm_t *alarm)
+{
+    alarm_t **last, *next;
+    int flag;
+
+    flag = 0;
+    last = &alarm_list;
+    next = *last;
+    while (next != NULL)
+    {
+ 	if (next->alarmNum == alarm->alarmNum
+		&& next->type == 0)
+	{
+	    flag = 1;
+	    break;
+	}
+	last = &next->link;
+        next = next->link;
+    }
+    return flag;
+}
+
+/*
+ * Searches for a type A alarm in the alarm list
+ * Replaces the alarm in the list with this alarm
+ */
+void replaceAlarmA(alarm_t *alarm)
+{
+    alarm_t **last, *next;
+
+    last = &alarm_list;
+    next = *last;
+    while (next != NULL)
+    {
+        if (next->alarmNum == alarm->alarmNum
+		&& next->type == 1)
+	{
+	    strcpy(next->message, alarm->message);
+    	    next->time = alarm->time;
+    	    next->seconds = alarm->seconds;
+	    break;
+	}
+	last = &next->link;
+        next = next->link;
+    }
+}
+
+/*
  * Insert alarm entry on list, in order.
  */
 void alarm_insert (alarm_t *alarm)
 {
     int status;
     alarm_t **last, *next;
-    int flag;
+    int flagA, flagB;
 
     /*
      * LOCKING PROTOCOL:
@@ -49,48 +131,77 @@ void alarm_insert (alarm_t *alarm)
      * This routine requires that the caller have locked the
      * alarm_mutex!
      */
-    flag = 0;
+    //printf("Enetered alarm_insert\n");
+    flagA = 0;
     last = &alarm_list;
     next = *last;
-    while (next != NULL)
+    //printf("Checking alarm type\n");
+    if(alarm->type == 1)
     {
- 	if (next->alarmNum == alarm->alarmNum)
-	{
-	    strcpy(next->message, alarm->message);
-	    next->time = alarm->time;
-    	    next->seconds = alarm->seconds;
-	    printf("Replacement Alarm Request With Message Number (%d) " 	
-		   "Received at %d: %s\n",next->alarmNum, time(NULL),
-		   next->message);
-	    flag = 1;
-	    break;
-	}
-	last = &next->link;
-        next = next->link;  
-    }
-    if (!flag)
-    {
-	    last = &alarm_list;
-    	    next = *last;
-	    while (next != NULL) {
-		if (next->alarmNum >= alarm->alarmNum) {
-		    alarm->link = next;
-		    *last = alarm;
-		    break;
+	    //printf("Alarm Type A\n");
+	    flagA = searchAlarmA(alarm);
+	    //printf("%d\n", flagA);
+	    if(flagA) 
+	    {
+		printf("Replacement Alarm Request With Message Number (%d) " 	
+			   "Received at %d: %s\n",alarm->alarmNum, time(NULL),
+			   alarm->message);
+		replaceAlarmA(alarm);
+	    }
+	    if (!flagA)
+	    {
+		printf("First Alarm Request With Message Number (%d) " 	
+			   "Received at %d: %s\n",alarm->alarmNum, time(NULL),
+			   alarm->message);
+		last = &alarm_list;
+	    	next = *last;
+		while (next != NULL) {
+		    	if (next->alarmNum >= alarm->alarmNum) {
+			    alarm->link = next;
+			    *last = alarm;
+			    break;
+			}
+			last = &next->link;
+			next = next->link;
+	    	}
+		
+		if (next == NULL) {
+			*last = alarm;
+			alarm->link = NULL;
 		}
-		last = &next->link;
-		next = next->link;
-    	    }
+	     }
      }
-    /*
-     * If we reached the end of the list, insert the new alarm
-     * there.  ("next" is NULL, and "last" points to the link
-     * field of the last item, or to the list header.)
-     */
-    if (next == NULL) {
-        *last = alarm;
-        alarm->link = NULL;
-    }
+     else
+     {
+	   flagA = searchAlarmA(alarm);
+	   if(!flagA) printf("Error: No Alarm Request With Message Number (%d) " 	
+			   "to Cancel!\n",alarm->alarmNum);
+	   if(flagA)
+	   {
+		flagB=searchAlarmB(alarm);
+		if(flagB) printf("Error: More Than One Request to Cancel "
+			   "Alarm Request With Message Number (%d)!\n"
+		           ,alarm->alarmNum);
+		else
+		{
+			printf("Cancel Alarm Request With Message Number (%d) " 	
+			   "Received at %d: %s\n",alarm->alarmNum, time(NULL),
+			   alarm->message);
+			last = &alarm_list;
+	    		next = *last;
+			while (next != NULL) {
+		    		if (next->alarmNum >= alarm->alarmNum) {
+			    	alarm->link = next;
+			    	*last = alarm;
+			   	 break;
+				}
+			last = &next->link;
+			next = next->link;
+			}
+	    	}		
+	   }
+     }
+    
 #ifdef DEBUG
     printf ("[list: ");
     for (next = alarm_list; next != NULL; next = next->link)
@@ -202,6 +313,7 @@ int main (int argc, char *argv[])
          * (%64[^\n]), consisting of up to 64 characters
          * separated from the seconds by whitespace.
          */
+	//printf("Input Read\n");
         if (sscanf (line, "%d Message(%d) %64[^\n]", 
             &alarm->seconds, &alarm->alarmNum, alarm->message) < 3) 
 	    if (sscanf (line, "Cancel: Message(%d)",
@@ -215,8 +327,11 @@ int main (int argc, char *argv[])
 	    {
 		alarm->seconds = 0;
 		strcpy(alarm->message,"Cancel command");
+		alarm->type = 0;
 		flag = 1;
 	    }
+        else alarm->type = 1;
+	//printf("Alarm created\n");
         if (flag) 
         {
             status = pthread_mutex_lock (&alarm_mutex);
@@ -227,6 +342,7 @@ int main (int argc, char *argv[])
              * Insert the new alarm into the list of alarms,
              * sorted by expiration time.
              */
+	    //printf("Adding alarm\n");
             alarm_insert (alarm);
             status = pthread_mutex_unlock (&alarm_mutex);
             if (status != 0)
