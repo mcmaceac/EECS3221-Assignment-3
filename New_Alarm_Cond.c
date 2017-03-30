@@ -28,6 +28,8 @@ typedef struct alarm_tag {
     char                message[64];
     int			alarmNum; /* the message number */
     int			type; /*alarm type: 1 = type A, 0 = Type B*/
+    int			new; /* alarm is new = 1, 0 otherwise */
+    int			modified; /* alarm modfied = 1, 0 otherwise */
 } alarm_t;
 
 pthread_mutex_t alarm_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -50,7 +52,7 @@ int searchAlarmA(alarm_t *alarm)
     next = *last;
     while (next != NULL)
     {
-	printf("Searching...\n");
+	//printf("Searching Alarm Number %d...\n", alarm->alarmNum);
  	if (next->alarmNum == alarm->alarmNum
 		&& next->type == 1)
 	{
@@ -169,6 +171,9 @@ void alarm_insert (alarm_t *alarm)
 			*last = alarm;
 			alarm->link = NULL;
 		}
+		status = pthread_cond_signal (&alarm_cond);
+        	if (status != 0)
+            		err_abort (status, "Signal cond");
 	     }
      }
      else
@@ -215,11 +220,34 @@ void alarm_insert (alarm_t *alarm)
      * work), or if the new alarm comes before the one on
      * which the alarm thread is waiting.
      */
-    if (current_alarm == 0 || alarm->alarmNum < current_alarm) {
+    /*if (current_alarm == 0 || alarm->alarmNum < current_alarm) {
         current_alarm = alarm->alarmNum;
         status = pthread_cond_signal (&alarm_cond);
         if (status != 0)
             err_abort (status, "Signal cond");
+    }*/
+}
+
+void *periodic_display_thread (void *arg)
+{
+    alarm_t *alarm;
+    int status;
+    int sleeptime;
+	
+    alarm = arg;
+    while(1)
+    {
+	status = pthread_mutex_lock (&alarm_mutex);
+	if (status != 0)
+	    err_abort (status, "Lock mutex");
+	if (alarm->modified == 0)
+	    printf("Alarm With Message Number (%d) Displayed at %d: %s\n",
+		    alarm->alarmNum, time(NULL), alarm->message);
+	sleeptime = alarm->seconds;
+	status = pthread_mutex_unlock (&alarm_mutex);
+            if (status != 0)
+                err_abort (status, "Unlock mutex");
+	sleep(sleeptime);
     }
 }
 
@@ -228,10 +256,11 @@ void alarm_insert (alarm_t *alarm)
  */
 void *alarm_thread (void *arg)
 {
-    alarm_t *alarm;
+    alarm_t *alarm, **last, *next;;
     struct timespec cond_time;
     time_t now;
-    int status, expired;
+    int status;
+    pthread_t thread;
 
     /*
      * Loop forever, processing commands. The alarm thread will
@@ -248,16 +277,33 @@ void *alarm_thread (void *arg)
          * added. Setting current_alarm to 0 informs the insert
          * routine that the thread is not busy.
          */
-        current_alarm = 0;
-        while (alarm_list == NULL) {
-            status = pthread_cond_wait (&alarm_cond, &alarm_mutex);
-            if (status != 0)
-                err_abort (status, "Wait on cond");
-            }
-        alarm = alarm_list;
-        alarm_list = alarm->link;
-        now = time (NULL);
-        expired = 0;
+        //current_alarm = 0;
+        status = pthread_cond_wait (&alarm_cond, &alarm_mutex);
+        if (status != 0)
+            err_abort (status, "Wait on cond");
+	last = &alarm_list;
+    	next = *last;
+	while (next != NULL)
+	{
+	    if(next->new == 1 && next->type == 1)
+	    {
+		next->new = 0;
+		alarm = next;
+		break;
+	    }
+	    last = &next->link;
+	    next = next->link;
+	}
+	status = pthread_create (
+            &thread, NULL, periodic_display_thread, alarm);
+    	if (status != 0)
+            err_abort (status, "Create alarm thread");
+	printf("Alarm Request With Message Number(%d) Proccessed at %d: %s\n",
+		alarm->alarmNum, time(NULL), alarm->message);
+        //alarm = alarm_list;
+        //alarm_list = alarm->link;
+        //now = time (NULL);
+        /*expired = 0;
         if (alarm->time > now) {
 #ifdef DEBUG
             printf ("[waiting: %d(%d)\"%s\"]\n", alarm->time,
@@ -283,7 +329,7 @@ void *alarm_thread (void *arg)
         if (expired) {
             printf ("(%d) %s\n", alarm->seconds, alarm->message);
             free (alarm);
-        }
+        }*/
     }
 }
 
@@ -338,6 +384,8 @@ int main (int argc, char *argv[])
             if (status != 0)
                 err_abort (status, "Lock mutex");
             alarm->time = time (NULL) + alarm->seconds;
+	    alarm->new = 1;
+	    alarm->modified = 0;
             /*
              * Insert the new alarm into the list of alarms,
              * sorted by expiration time.
