@@ -145,9 +145,11 @@ void printAlarmList()
  */
 void alarm_insert (alarm_t *alarm)
 {
-    int status;
     alarm_t *previous, *next;
-    int flagA, flagB;
+    int flagA, flagB; /* Stores the output of the helper search methods.
+		       * flagA = 1 means a type A alarm was found.
+		       * flagB = 1 means a type B alarm was found.
+		       * flagA/flagB = 0 means no alarm of type A/B was found.
 
    /*
     * LOCKING PROTOCOL:
@@ -245,7 +247,8 @@ void *periodic_display_thread (void *arg)
     int sleeptime;
     int flag;
 	
-    flag = 0;
+    flag = 0; /* Used to identify the first time the alarm was modified for
+		 proper output */
     alarm = arg;
     while(1)
     {
@@ -270,6 +273,8 @@ void *periodic_display_thread (void *arg)
 	if(alarm->linked == 0)
 	{
 	    printf("Display thread exiting at %d: %s\n", time(NULL), alarm->message);
+
+	    /* Reader unlocking setup before thread termination*/
 	    status = pthread_mutex_lock (&mutex);
             if (status != 0)
                 err_abort (status, "Lock mutex");
@@ -283,6 +288,8 @@ void *periodic_display_thread (void *arg)
 	    status = pthread_mutex_unlock (&mutex);
             if (status != 0)
                 err_abort (status, "Unlock mutex");
+	    /* Reader unlocking setup complete*/
+
 	    return NULL;
 	}
 	if (alarm->modified == 0)
@@ -334,9 +341,7 @@ void *periodic_display_thread (void *arg)
  */
 void *alarm_thread (void *arg)
 {
-    alarm_t *alarm, *next, *previous;;
-    struct timespec cond_time;
-    time_t now;
+    alarm_t *alarm, *next, *previous;
     int status, alarmToDelete;
     pthread_t thread;
 
