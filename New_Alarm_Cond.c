@@ -33,10 +33,11 @@ typedef struct alarm_tag {
     int			linked; /* alarm is in list = 1, 0 otherwise */
 } alarm_t;
 
-pthread_mutex_t alarm_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t rw_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t alarm_cond = PTHREAD_COND_INITIALIZER;
 alarm_t *head, *tail;
-time_t current_alarm = 0;
+int read_count;
 
 /*
  * Searches for a type A alarm in the alarm list
@@ -156,7 +157,7 @@ void alarm_insert (alarm_t *alarm)
 			   "Received at %d: %s\n",alarm->alarmNum, time(NULL),
 			   alarm->message);
 		replaceAlarmA(alarm);
-		printAlarmList();
+		//printAlarmList();
 	    }
 	    if (!flagA)
 	    {
@@ -182,9 +183,9 @@ void alarm_insert (alarm_t *alarm)
 			alarm->linked = 1;
 		}
 		//printAlarmList();
-		status = pthread_cond_signal (&alarm_cond);
+		/*status = pthread_cond_signal (&alarm_cond);
         	if (status != 0)
-            		err_abort (status, "Signal cond");
+            		err_abort (status, "Signal cond");*/
 	     }
      }
      else
@@ -216,9 +217,9 @@ void alarm_insert (alarm_t *alarm)
 				next = next->link;
 			}
 			//printAlarmList();
-			status = pthread_cond_signal (&alarm_cond);
+			/*status = pthread_cond_signal (&alarm_cond);
         		if (status != 0)
-            			err_abort (status, "Signal cond");
+            			err_abort (status, "Signal cond");*/
 	    	}		
 	   }
      }
@@ -255,13 +256,35 @@ void *periodic_display_thread (void *arg)
     alarm = arg;
     while(1)
     {
-	status = pthread_mutex_lock (&alarm_mutex);
+	status = pthread_mutex_lock (&mutex);
 	if (status != 0)
 	    err_abort (status, "Lock mutex");
+	read_count++;
+	if (read_count == 1)
+	{
+	    status = pthread_mutex_lock (&rw_mutex);
+                if (status != 0)
+                    err_abort (status, "Lock mutex");
+	}
+	status = pthread_mutex_unlock (&mutex);
+            if (status != 0)
+                err_abort (status, "Unlock mutex");
+
+	sleeptime = alarm->seconds;
 	if(alarm->linked == 0)
 	{
 	    printf("Display thread exiting at %d: %s\n", time(NULL), alarm->message);
-	    status = pthread_mutex_unlock (&alarm_mutex);
+	    status = pthread_mutex_lock (&mutex);
+            if (status != 0)
+                err_abort (status, "Lock mutex");
+	    read_count--;
+	    if (read_count == 0)
+	    {
+	        status = pthread_mutex_unlock (&rw_mutex);
+                if (status != 0)
+                    err_abort (status, "Unlock mutex");
+	    }
+	    status = pthread_mutex_unlock (&mutex);
             if (status != 0)
                 err_abort (status, "Unlock mutex");
 	    return NULL;
@@ -280,11 +303,27 @@ void *periodic_display_thread (void *arg)
 		    alarm->alarmNum, time(NULL), alarm->message);
 	    flag = 1;
 	}
-	sleeptime = alarm->seconds;
-	status = pthread_mutex_unlock (&alarm_mutex);
+
+	status = pthread_mutex_lock (&mutex);
+            if (status != 0)
+                err_abort (status, "Lock mutex");
+	read_count--;
+	if (read_count == 0)
+	{
+	    status = pthread_mutex_unlock (&rw_mutex);
             if (status != 0)
                 err_abort (status, "Unlock mutex");
+	}
+	status = pthread_mutex_unlock (&mutex);
+            if (status != 0)
+                err_abort (status, "Unlock mutex");
+
 	sleep(sleeptime);
+	//sleeptime = alarm->seconds;
+	/*status = pthread_mutex_unlock (&alarm_mutex);
+            if (status != 0)
+                err_abort (status, "Unlock mutex");*/
+
     }
 }
 
@@ -305,19 +344,34 @@ void *alarm_thread (void *arg)
      * at the start -- it will be unlocked during condition
      * waits, so the main thread can insert alarms.
      */
-    status = pthread_mutex_lock (&alarm_mutex);
+    /*status = pthread_mutex_lock (&alarm_mutex);
     if (status != 0)
-        err_abort (status, "Lock mutex");
+        err_abort (status, "Lock mutex");*/
     while (1) {
+	status = pthread_mutex_lock (&mutex);
+            if (status != 0)
+                err_abort (status, "Lock mutex");
+	read_count++;
+	if (read_count == 1)
+	{
         /*
          * If the alarm list is empty, wait until an alarm is
          * added. Setting current_alarm to 0 informs the insert
          * routine that the thread is not busy.
          */
         //current_alarm = 0;
-        status = pthread_cond_wait (&alarm_cond, &alarm_mutex);
+	    status = pthread_mutex_lock (&rw_mutex);
+                if (status != 0)
+                    err_abort (status, "Lock mutex");
+	}
+	/*status = pthread_cond_wait (&alarm_cond, &rw_mutex);
         if (status != 0)
-            err_abort (status, "Wait on cond");
+            err_abort (status, "Wait on cond");*/
+	status = pthread_mutex_unlock (&mutex);
+            if (status != 0)
+                err_abort (status, "Unlock mutex");
+
+	alarm = NULL;
     	next = head->link;
 	while (next != tail)
 	{
@@ -329,15 +383,35 @@ void *alarm_thread (void *arg)
 	    }
 	    next = next->link;
 	}
-	if (alarm->type == 1)
+	if (alarm != NULL && alarm->type == 1)
 	{
+	    printf("Alarm Request With Message Number(%d) Proccessed at %d: %s\n",
+		alarm->alarmNum, time(NULL), alarm->message);
 	    status = pthread_create (
                 &thread, NULL, periodic_display_thread, alarm);
     	    if (status != 0)
                 err_abort (status, "Create alarm thread");
 	}
-	else
+
+	status = pthread_mutex_lock (&mutex);
+            if (status != 0)
+                err_abort (status, "Lock mutex");
+	read_count--;
+	if (read_count == 0)
 	{
+	    status = pthread_mutex_unlock (&rw_mutex);
+            if (status != 0)
+                err_abort (status, "Unlock mutex");
+	}
+	status = pthread_mutex_unlock (&mutex);
+            if (status != 0)
+                err_abort (status, "Unlock mutex");
+
+	if (alarm != NULL &&  alarm->type == 0)
+	{
+	    status = pthread_mutex_lock (&rw_mutex);
+            if (status != 0)
+                err_abort (status, "Lock mutex");
 	    next = head->link;
 	    previous = head;
 	    while (next != tail)
@@ -369,9 +443,12 @@ void *alarm_thread (void *arg)
 	        next = next->link;
 	     }
 	     //printAlarmList();
-	}
-	printf("Alarm Request With Message Number(%d) Proccessed at %d: %s\n",
+	     printf("Alarm Request With Message Number(%d) Proccessed at %d: %s\n",
 		alarm->alarmNum, time(NULL), alarm->message);
+	     status = pthread_mutex_unlock (&rw_mutex);
+             if (status != 0)
+                err_abort (status, "Lock mutex");
+	}
         //alarm = alarm_list;
         //alarm_list = alarm->link;
         //now = time (NULL);
@@ -420,6 +497,7 @@ int main (int argc, char *argv[])
     head->link = tail;
     head->alarmNum = -1;
     //printAlarmList();
+    read_count = 0;
     status = pthread_create (
         &thread, NULL, alarm_thread, NULL);
     if (status != 0)
@@ -459,7 +537,7 @@ int main (int argc, char *argv[])
 	//printf("Alarm created\n");
         if (flag) 
         {
-            status = pthread_mutex_lock (&alarm_mutex);
+            status = pthread_mutex_lock (&rw_mutex);
             if (status != 0)
                 err_abort (status, "Lock mutex");
             alarm->time = time (NULL) + alarm->seconds;
@@ -471,7 +549,7 @@ int main (int argc, char *argv[])
              */
 	    //printf("Adding alarm\n");
             alarm_insert (alarm);
-            status = pthread_mutex_unlock (&alarm_mutex);
+            status = pthread_mutex_unlock (&rw_mutex);
             if (status != 0)
                 err_abort (status, "Unlock mutex");
         }
