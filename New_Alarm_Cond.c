@@ -511,6 +511,7 @@ int main (int argc, char *argv[])
         else alarm->type = 1;
         if (flag) 
         {
+	    /* Writer locking rw_mutex */
             status = pthread_mutex_lock (&rw_mutex);
             if (status != 0)
                 err_abort (status, "Lock mutex");
@@ -525,6 +526,7 @@ int main (int argc, char *argv[])
             status = pthread_mutex_unlock (&rw_mutex);
             if (status != 0)
                 err_abort (status, "Unlock mutex");
+	    /* Writer unlocking rw_mutex */
         }
     }
 }
