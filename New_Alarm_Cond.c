@@ -60,12 +60,12 @@ int searchAlarmA(alarm_t *alarm)
     next = head->link;
     while (next != tail)
     {
- 	if (next->alarmNum == alarm->alarmNum
-		&& next->type == 1)
-	{
-	    flag = 1;
-	    break;
-	}
+	 	if (next->alarmNum == alarm->alarmNum
+			&& next->type == 1)
+		{
+		    flag = 1;
+		    break;
+		}
         next = next->link;
     }
     return flag;
@@ -86,12 +86,12 @@ int searchAlarmB(alarm_t *alarm)
     next = head->link;
     while (next != tail)
     {
- 	if (next->alarmNum == alarm->alarmNum
-		&& next->type == 0)
-	{
-	    flag = 1;
-	    break;
-	}
+	 	if (next->alarmNum == alarm->alarmNum
+			&& next->type == 0)
+		{
+		    flag = 1;
+		    break;
+		}
         next = next->link;
     }
     return flag;
@@ -111,13 +111,13 @@ void replaceAlarmA(alarm_t *alarm)
     {
         if (next->alarmNum == alarm->alarmNum
 		&& next->type == 1)
-	{
-	    strcpy(next->message, alarm->message);
+		{
+		    strcpy(next->message, alarm->message);
     	    next->time = alarm->time;
     	    next->seconds = alarm->seconds;
-	    next->modified = 1;
-	    break;
-	}
+		    next->modified = 1;
+		    break;
+		}
         next = next->link;
     }
 }
@@ -133,8 +133,8 @@ void printAlarmList()
     next = head;
     while (next != NULL) 
     {
-	printf("%d, ", next->alarmNum);
-	next = next->link;
+		printf("%d, ", next->alarmNum);
+		next = next->link;
     }
     printf("\n");
 }
@@ -161,75 +161,75 @@ void alarm_insert (alarm_t *alarm)
     flagA = 0;
     if(alarm->type == 1)
     {
-	flagA = searchAlarmA(alarm);
-	if(flagA) 
-	{
-	    printf("Replacement Alarm Request With Message Number (%d) " 	
-	           "Received at %d: %s\n",alarm->alarmNum, time(NULL),
-		   alarm->message);
-            replaceAlarmA(alarm);
-	}
-	if (!flagA)
-	{
-	    printf("First Alarm Request With Message Number (%d) " 	
-	           "Received at %d: %s\n",alarm->alarmNum, time(NULL),
-	           alarm->message);
-	    previous = head;
-	    next = head->link;
-	    while (next != tail) 
-	    {
-                if (next->alarmNum >= alarm->alarmNum) 
+		flagA = searchAlarmA(alarm);
+		if(flagA) 
 		{
-		    alarm->link = next;
-	            previous->link = alarm;
-	            alarm->linked = 1;
-	            break;
-	 	}
-		previous = next;
-		next = next->link;
-	    }
-		
-	    if (next == tail) 
-	    {
-		alarm->link = next;
-		previous->link = alarm;
-		alarm->linked = 1;
-	    }
-	}
+		    printf("Replacement Alarm Request With Message Number (%d) " 	
+		           "Received at %d: %s\n",alarm->alarmNum, time(NULL),
+		   	alarm->message);
+            replaceAlarmA(alarm);
+		}
+		if (!flagA)
+		{
+		    printf("First Alarm Request With Message Number (%d) " 	
+		           "Received at %d: %s\n",alarm->alarmNum, time(NULL),
+		           alarm->message);
+		    previous = head;
+		    next = head->link;
+		    while (next != tail) 
+		    {
+		        if (next->alarmNum >= alarm->alarmNum) 
+				{
+				    alarm->link = next;
+		            previous->link = alarm;
+		            alarm->linked = 1;
+		            break;
+			 	}
+				previous = next;
+				next = next->link;
+		    }
+			
+		    if (next == tail) 
+		    {
+				alarm->link = next;
+				previous->link = alarm;
+				alarm->linked = 1;
+		    }
+		}
     }
     else
     {
-	flagA = searchAlarmA(alarm);
-	if(!flagA) printf("Error: No Alarm Request With Message Number (%d) " 	
+		flagA = searchAlarmA(alarm);
+		if(!flagA) printf("Error: No Alarm Request With Message Number (%d) " 	
 		          "to Cancel!\n",alarm->alarmNum);
-	if(flagA)
-	{
-	    flagB=searchAlarmB(alarm);
-	    if(flagB) 
-		printf("Error: More Than One Request to Cancel "
-		       "Alarm Request With Message Number (%d)!\n"
-		       ,alarm->alarmNum);
-	    else
-	    {
-		printf("Cancel Alarm Request With Message Number (%d) " 	
-		       "Received at %d: %s\n",alarm->alarmNum, time(NULL),
-		       alarm->message);
-		previous = head;
-	    	next = head->link;
-		while (next != tail) 
- 		{
-		    if (next->alarmNum >= alarm->alarmNum) 
+		if(flagA)
+		{
+		    flagB=searchAlarmB(alarm);
+		    if(flagB) 
+				printf("Error: More Than One Request to Cancel "
+			       "Alarm Request With Message Number (%d)!\n"
+			       ,alarm->alarmNum);
+		    else
 		    {
-			alarm->link = next;
-			previous->link = alarm;
-			alarm->linked = 1;
-			break;
-		    }
-		    previous = next;
-		    next = next->link;
+				printf("Cancel Alarm Request With Message Number (%d) " 	
+				       "Received at %d: %s\n",alarm->alarmNum, time(NULL),
+				       alarm->message);
+				previous = head;
+			    next = head->link;
+				while (next != tail) 
+		 		{
+				    if (next->alarmNum >= alarm->alarmNum) 
+				    {
+						alarm->link = next;
+						previous->link = alarm;
+						alarm->linked = 1;
+						break;
+				    }
+				    previous = next;
+				    next = next->link;
+				}
+		    }		
 		}
-	    }		
-	}
     }
 }
 
@@ -252,82 +252,82 @@ void *periodic_display_thread (void *arg)
     alarm = arg;
     while(1)
     {
-	/* Reader locking setup */
-	status = pthread_mutex_lock (&mutex);
-	if (status != 0)
-	    err_abort (status, "Lock mutex");
-	read_count++;
-	if (read_count == 1)
-	{
-	    status = pthread_mutex_lock (&rw_mutex);
-                if (status != 0)
-                    err_abort (status, "Lock mutex");
-	}
-	status = pthread_mutex_unlock (&mutex);
-            if (status != 0)
-                err_abort (status, "Unlock mutex");
-	/* Reader locking setup complete */	
-
-	/* Reading is performed */
-	sleeptime = alarm->seconds;
-	if(alarm->linked == 0)
-	{
-	    printf("Display thread exiting at %d: %s\n", time(NULL), alarm->message);
-
-	    /* Reader unlocking setup before thread termination*/
-	    status = pthread_mutex_lock (&mutex);
+		/* Reader locking setup */
+		status = pthread_mutex_lock (&mutex);
+		if (status != 0)
+		    err_abort (status, "Lock mutex");
+		read_count++;
+		if (read_count == 1)
+		{
+		    status = pthread_mutex_lock (&rw_mutex);
             if (status != 0)
                 err_abort (status, "Lock mutex");
-	    read_count--;
-	    if (read_count == 0)
-	    {
-	        status = pthread_mutex_unlock (&rw_mutex);
-                if (status != 0)
-                    err_abort (status, "Unlock mutex");
-	    }
-	    status = pthread_mutex_unlock (&mutex);
-            if (status != 0)
-                err_abort (status, "Unlock mutex");
-	    /* Reader unlocking setup complete*/
+		}
+		status = pthread_mutex_unlock (&mutex);
+	            if (status != 0)
+	                err_abort (status, "Unlock mutex");
+		/* Reader locking setup complete */	
 
-	    return NULL;
-	}
-	if (alarm->modified == 0)
-	    printf("Alarm With Message Number (%d) Displayed at %d: %s\n",
-		    alarm->alarmNum, time(NULL), alarm->message);
-	if (alarm->modified == 1 && flag)
-	{
-	    printf("Replacement Alarm With Message Number (%d) Displayed at "
-		   "%d: %s\n", alarm->alarmNum, time(NULL), alarm->message);
-	}
-	if (alarm->modified == 1 && !flag)
-	{
-	    printf("Alarm With Message Number (%d) Replaced at %d: %s\n",
-		    alarm->alarmNum, time(NULL), alarm->message);
-	    flag = 1;
-	}
-	/* Reading is done */	
+		/* Reading is performed */
+		sleeptime = alarm->seconds;
+		if(alarm->linked == 0)
+		{
+		    printf("Display thread exiting at %d: %s\n", time(NULL), alarm->message);
 
-	/* Reader unlocking setup*/
-	status = pthread_mutex_lock (&mutex);
-            if (status != 0)
-                err_abort (status, "Lock mutex");
-	read_count--;
-	if (read_count == 0)
-	{
-	    status = pthread_mutex_unlock (&rw_mutex);
-            if (status != 0)
-                err_abort (status, "Unlock mutex");
-	}
-	status = pthread_mutex_unlock (&mutex);
-            if (status != 0)
-                err_abort (status, "Unlock mutex");
-	/* Reader unlocking setup complete*/
+		    /* Reader unlocking setup before thread termination*/
+		    status = pthread_mutex_lock (&mutex);
+	        if (status != 0)
+	            err_abort (status, "Lock mutex");
+		    read_count--;
+		    if (read_count == 0)
+		    {
+		        status = pthread_mutex_unlock (&rw_mutex);
+	            if (status != 0)
+	                err_abort (status, "Unlock mutex");
+		    }
+		    status = pthread_mutex_unlock (&mutex);
+	        if (status != 0)
+	            err_abort (status, "Unlock mutex");
+		    /* Reader unlocking setup complete*/
 
-	sleep(sleeptime); /* 
-			   * Threads sleeps for the time period of specified in
-			   * the alarm by the user input.
-			   */
+		    return NULL;
+		}
+		if (alarm->modified == 0)
+		    printf("Alarm With Message Number (%d) Displayed at %d: %s\n",
+	    		alarm->alarmNum, time(NULL), alarm->message);
+		if (alarm->modified == 1 && flag)
+		{
+		    printf("Replacement Alarm With Message Number (%d) Displayed at "
+			   "%d: %s\n", alarm->alarmNum, time(NULL), alarm->message);
+		}
+		if (alarm->modified == 1 && !flag)
+		{
+		    printf("Alarm With Message Number (%d) Replaced at %d: %s\n",
+				alarm->alarmNum, time(NULL), alarm->message);
+		    flag = 1;
+		}
+		/* Reading is done */	
+
+		/* Reader unlocking setup*/
+		status = pthread_mutex_lock (&mutex);
+	    if (status != 0)
+	        err_abort (status, "Lock mutex");
+		read_count--;
+		if (read_count == 0)
+		{
+		    status = pthread_mutex_unlock (&rw_mutex);
+	        if (status != 0)
+	            err_abort (status, "Unlock mutex");
+		}
+		status = pthread_mutex_unlock (&mutex);
+	        if (status != 0)
+	            err_abort (status, "Unlock mutex");
+		/* Reader unlocking setup complete*/
+
+		sleep(sleeptime); /* 
+				   * Threads sleeps for the time period of specified in
+				   * the alarm by the user input.
+				   */
     }
 }
 
@@ -347,102 +347,102 @@ void *alarm_thread (void *arg)
 
     while (1) 
     {
-	/* Reader locking setup */
-	status = pthread_mutex_lock (&mutex);
-            if (status != 0)
-                err_abort (status, "Lock mutex");
-	read_count++;
-	if (read_count == 1)
-	{
+		/* Reader locking setup */
+		status = pthread_mutex_lock (&mutex);
+        if (status != 0)
+            err_abort (status, "Lock mutex");
+		read_count++;
+		if (read_count == 1)
+		{
             status = pthread_mutex_lock (&rw_mutex);
             if (status != 0)
                 err_abort (status, "Lock mutex");
-	}
-	status = pthread_mutex_unlock (&mutex);
-            if (status != 0)
-                err_abort (status, "Unlock mutex");
-	/* Reader locking setup complete */	
+		}
+		status = pthread_mutex_unlock (&mutex);
+        if (status != 0)
+            err_abort (status, "Unlock mutex");
+		/* Reader locking setup complete */	
 
-	/* Reading is performed */
-	alarm = NULL;
-    	next = head->link;
-	while (next != tail)
-	{
-	    if(next->new == 1)
-	    {
-		next->new = 0;
-		alarm = next;
-		break;
-	    }
-	    next = next->link;
-	}
-	if (alarm != NULL && alarm->type == 1)
-	{
-	    printf("Alarm Request With Message Number(%d) Proccessed at %d: %s\n",
-		alarm->alarmNum, time(NULL), alarm->message);
-	    status = pthread_create (
-                &thread, NULL, periodic_display_thread, alarm);
+		/* Reading is performed */
+		alarm = NULL;
+	    	next = head->link;
+		while (next != tail)
+		{
+		    if(next->new == 1)
+		    {
+				next->new = 0;
+				alarm = next;
+				break;
+		    }
+		    next = next->link;
+		}
+		if (alarm != NULL && alarm->type == 1)
+		{
+		    printf("Alarm Request With Message Number(%d) Proccessed at %d: %s\n",
+			alarm->alarmNum, time(NULL), alarm->message);
+		    status = pthread_create (
+	                &thread, NULL, periodic_display_thread, alarm);
     	    if (status != 0)
                 err_abort (status, "Create alarm thread");
-	}
-	/* Reading is done */	
+		}
+		/* Reading is done */	
 
-	/* Reader unlocking setup*/
-	status = pthread_mutex_lock (&mutex);
-            if (status != 0)
-                err_abort (status, "Lock mutex");
-	read_count--;
-	if (read_count == 0)
-	{
-	    status = pthread_mutex_unlock (&rw_mutex);
-            if (status != 0)
-                err_abort (status, "Unlock mutex");
-	}
-	status = pthread_mutex_unlock (&mutex);
-            if (status != 0)
-                err_abort (status, "Unlock mutex");
-	/* Reader unlocking setup complete*/
+		/* Reader unlocking setup*/
+		status = pthread_mutex_lock (&mutex);
+	    if (status != 0)
+	        err_abort (status, "Lock mutex");
+		read_count--;
+		if (read_count == 0)
+		{
+		    status = pthread_mutex_unlock (&rw_mutex);
+	        if (status != 0)
+	            err_abort (status, "Unlock mutex");
+		}
+		status = pthread_mutex_unlock (&mutex);
+	    if (status != 0)
+	        err_abort (status, "Unlock mutex");
+		/* Reader unlocking setup complete*/
 
-	if (alarm != NULL &&  alarm->type == 0)
-	{
-	    /* Writer locking rw_mutex */
-	    status = pthread_mutex_lock (&rw_mutex);
-            if (status != 0)
-                err_abort (status, "Lock mutex");
-	    next = head->link;
-	    previous = head;
-	    while (next != tail)
-	    {
-		if(next == alarm)
-	        {
-	       	    alarmToDelete = next->alarmNum;
-		    previous->link = next->link;
-		    next->linked = 0;
-		    break;
-	        }
-	    	previous = next;
-	    	next = next->link;
-	    }
-    	    next = head->link;
-	    previous = head;
-	    while (next != tail)
-	    {
-	        if(next->alarmNum == alarmToDelete)
-	        {
-		    next->linked = 0;
-		    previous->link = next->link;
-		    break;
-	        }
-		previous = next;
-	        next = next->link;
-	     }
-	     printf("Alarm Request With Message Number(%d) Proccessed at %d: %s\n",
-		alarm->alarmNum, time(NULL), alarm->message);
-	     status = pthread_mutex_unlock (&rw_mutex);
-             if (status != 0)
-                err_abort (status, "Lock mutex");
-	     /* Writer unlocking rw_mutex */
-	}
+		if (alarm != NULL &&  alarm->type == 0)
+		{
+		    /* Writer locking rw_mutex */
+		    status = pthread_mutex_lock (&rw_mutex);
+	        if (status != 0)
+	            err_abort (status, "Lock mutex");
+		    next = head->link;
+		    previous = head;
+		    while (next != tail)
+		    {
+				if(next == alarm)
+		        {
+		       	    alarmToDelete = next->alarmNum;
+				    previous->link = next->link;
+				    next->linked = 0;
+				    break;
+		        }
+		    	previous = next;
+		    	next = next->link;
+		    }
+		    next = head->link;
+		    previous = head;
+		    while (next != tail)
+		    {
+		        if(next->alarmNum == alarmToDelete)
+		        {
+				    next->linked = 0;
+				    previous->link = next->link;
+				    break;
+		        }
+				previous = next;
+		        next = next->link;
+		     }
+		    printf("Alarm Request With Message Number(%d) Proccessed at %d: %s\n",
+			alarm->alarmNum, time(NULL), alarm->message);
+		    status = pthread_mutex_unlock (&rw_mutex);
+		    if (status != 0)
+		    	err_abort (status, "Lock mutex");
+		     /* Writer unlocking rw_mutex */
+		}
     }
 }
 
@@ -481,7 +481,7 @@ int main (int argc, char *argv[])
         err_abort (status, "Create alarm thread");
     while (1) 
     {
-	flag = 1;
+		flag = 1;
         printf ("Alarm> ");
         if (fgets (line, sizeof (line), stdin) == NULL) exit (0);
         if (strlen (line) <= 1) continue;
@@ -500,18 +500,18 @@ int main (int argc, char *argv[])
              */
 	    if (sscanf (line, "Cancel: Message(%d)",
 	        &alarm->alarmNum) < 1)
-            {
-	    /* Error in case the input is wrong */
-            	fprintf (stderr, "Bad command\n");
+        {
+	    	/* Error in case the input is wrong */
+        	fprintf (stderr, "Bad command\n");
            	free (alarm);
-		flag = 0;
+			flag = 0;
 	    }
 	    else
 	    {
-		alarm->seconds = 0;
-		strcpy(alarm->message,"Cancel command");
-		alarm->type = 0;
-		flag = 1;
+			alarm->seconds = 0;
+			strcpy(alarm->message,"Cancel command");
+			alarm->type = 0;
+			flag = 1;
 	    }
         else alarm->type = 1;
         if (flag) 
@@ -521,8 +521,8 @@ int main (int argc, char *argv[])
             if (status != 0)
                 err_abort (status, "Lock mutex");
             alarm->time = time (NULL) + alarm->seconds;
-	    alarm->new = 1;
-	    alarm->modified = 0;
+		    alarm->new = 1;
+		    alarm->modified = 0;
             /*
              * Insert the new alarm into the alarm list,
              * sorted by alarm number.
