@@ -30,11 +30,12 @@ typedef struct alarm_tag {
     int			type; /*alarm type: 1 = type A, 0 = Type B*/
     int			new; /* alarm is new = 1, 0 otherwise */
     int			modified; /* alarm modfied = 1, 0 otherwise */
+    int			linked; /* alarm is in list = 1, 0 otherwise */
 } alarm_t;
 
 pthread_mutex_t alarm_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t alarm_cond = PTHREAD_COND_INITIALIZER;
-alarm_t *alarm_list = NULL;
+alarm_t *head, *tail;
 time_t current_alarm = 0;
 
 /*
@@ -44,13 +45,12 @@ time_t current_alarm = 0;
  */
 int searchAlarmA(alarm_t *alarm)
 {
-    alarm_t **last, *next;
+    alarm_t *next;
     int flag;
 
     flag = 0;
-    last = &alarm_list;
-    next = *last;
-    while (next != NULL)
+    next = head->link;
+    while (next != tail)
     {
 	//printf("Searching Alarm Number %d...\n", alarm->alarmNum);
  	if (next->alarmNum == alarm->alarmNum
@@ -59,7 +59,6 @@ int searchAlarmA(alarm_t *alarm)
 	    flag = 1;
 	    break;
 	}
-	last = &next->link;
         next = next->link;
     }
     //printf("Done searching\n");
@@ -73,13 +72,12 @@ int searchAlarmA(alarm_t *alarm)
  */
 int searchAlarmB(alarm_t *alarm)
 {
-    alarm_t **last, *next;
+    alarm_t *next;
     int flag;
 
     flag = 0;
-    last = &alarm_list;
-    next = *last;
-    while (next != NULL)
+    next = head->link;
+    while (next != tail)
     {
  	if (next->alarmNum == alarm->alarmNum
 		&& next->type == 0)
@@ -87,7 +85,6 @@ int searchAlarmB(alarm_t *alarm)
 	    flag = 1;
 	    break;
 	}
-	last = &next->link;
         next = next->link;
     }
     return flag;
@@ -99,11 +96,10 @@ int searchAlarmB(alarm_t *alarm)
  */
 void replaceAlarmA(alarm_t *alarm)
 {
-    alarm_t **last, *next;
+    alarm_t *next;
 
-    last = &alarm_list;
-    next = *last;
-    while (next != NULL)
+    next = head->link;
+    while (next != tail)
     {
         if (next->alarmNum == alarm->alarmNum
 		&& next->type == 1)
@@ -114,9 +110,21 @@ void replaceAlarmA(alarm_t *alarm)
 	    next->modified = 1;
 	    break;
 	}
-	last = &next->link;
         next = next->link;
     }
+}
+
+void printAlarmList()
+{
+     alarm_t *next;
+
+     next = head;
+     while (next != NULL) 
+     {
+	printf("%d, ", next->alarmNum);
+	next = next->link;
+     }
+     printf("\n");
 }
 
 /*
@@ -125,7 +133,7 @@ void replaceAlarmA(alarm_t *alarm)
 void alarm_insert (alarm_t *alarm)
 {
     int status;
-    alarm_t **last, *next;
+    alarm_t *previous, *next;
     int flagA, flagB;
 
     /*
@@ -136,8 +144,6 @@ void alarm_insert (alarm_t *alarm)
      */
     //printf("Enetered alarm_insert\n");
     flagA = 0;
-    last = &alarm_list;
-    next = *last;
     //printf("Checking alarm type\n");
     if(alarm->type == 1)
     {
@@ -150,28 +156,32 @@ void alarm_insert (alarm_t *alarm)
 			   "Received at %d: %s\n",alarm->alarmNum, time(NULL),
 			   alarm->message);
 		replaceAlarmA(alarm);
+		printAlarmList();
 	    }
 	    if (!flagA)
 	    {
 		printf("First Alarm Request With Message Number (%d) " 	
 			   "Received at %d: %s\n",alarm->alarmNum, time(NULL),
 			   alarm->message);
-		last = &alarm_list;
-	    	next = *last;
-		while (next != NULL) {
+		previous = head;
+	    	next = head->link;
+		while (next != tail) {
 		    	if (next->alarmNum >= alarm->alarmNum) {
 			    alarm->link = next;
-			    *last = alarm;
+			    previous->link = alarm;
+			    alarm->linked = 1;
 			    break;
 			}
-			last = &next->link;
+			previous = next;
 			next = next->link;
 	    	}
 		
-		if (next == NULL) {
-			*last = alarm;
-			alarm->link = NULL;
+		if (next == tail) {
+			alarm->link = next;
+			previous->link = alarm;
+			alarm->linked = 1;
 		}
+		//printAlarmList();
 		status = pthread_cond_signal (&alarm_cond);
         	if (status != 0)
             		err_abort (status, "Signal cond");
@@ -193,17 +203,22 @@ void alarm_insert (alarm_t *alarm)
 			printf("Cancel Alarm Request With Message Number (%d) " 	
 			   "Received at %d: %s\n",alarm->alarmNum, time(NULL),
 			   alarm->message);
-			last = &alarm_list;
-	    		next = *last;
-			while (next != NULL) {
+			previous = head;
+	    		next = head->link;
+			while (next != tail) {
 		    		if (next->alarmNum >= alarm->alarmNum) {
 			    	alarm->link = next;
-			    	*last = alarm;
+			    	previous->link = alarm;
+				alarm->linked = 1;
 			   	 break;
 				}
-			last = &next->link;
-			next = next->link;
+				previous = next;
+				next = next->link;
 			}
+			//printAlarmList();
+			status = pthread_cond_signal (&alarm_cond);
+        		if (status != 0)
+            			err_abort (status, "Signal cond");
 	    	}		
 	   }
      }
@@ -243,6 +258,14 @@ void *periodic_display_thread (void *arg)
 	status = pthread_mutex_lock (&alarm_mutex);
 	if (status != 0)
 	    err_abort (status, "Lock mutex");
+	if(alarm->linked == 0)
+	{
+	    printf("Display thread exiting at %d: %s\n", time(NULL), alarm->message);
+	    status = pthread_mutex_unlock (&alarm_mutex);
+            if (status != 0)
+                err_abort (status, "Unlock mutex");
+	    return NULL;
+	}
 	if (alarm->modified == 0)
 	    printf("Alarm With Message Number (%d) Displayed at %d: %s\n",
 		    alarm->alarmNum, time(NULL), alarm->message);
@@ -270,10 +293,10 @@ void *periodic_display_thread (void *arg)
  */
 void *alarm_thread (void *arg)
 {
-    alarm_t *alarm, **last, *next;;
+    alarm_t *alarm, *next, *previous;;
     struct timespec cond_time;
     time_t now;
-    int status;
+    int status, alarmToDelete;
     pthread_t thread;
 
     /*
@@ -295,23 +318,58 @@ void *alarm_thread (void *arg)
         status = pthread_cond_wait (&alarm_cond, &alarm_mutex);
         if (status != 0)
             err_abort (status, "Wait on cond");
-	last = &alarm_list;
-    	next = *last;
-	while (next != NULL)
+    	next = head->link;
+	while (next != tail)
 	{
-	    if(next->new == 1 && next->type == 1)
+	    if(next->new == 1)
 	    {
 		next->new = 0;
 		alarm = next;
 		break;
 	    }
-	    last = &next->link;
 	    next = next->link;
 	}
-	status = pthread_create (
-            &thread, NULL, periodic_display_thread, alarm);
-    	if (status != 0)
-            err_abort (status, "Create alarm thread");
+	if (alarm->type == 1)
+	{
+	    status = pthread_create (
+                &thread, NULL, periodic_display_thread, alarm);
+    	    if (status != 0)
+                err_abort (status, "Create alarm thread");
+	}
+	else
+	{
+	    next = head->link;
+	    previous = head;
+	    while (next != tail)
+	    {
+		//printf("Searching for type B alarm\n");
+		if(next == alarm)
+	        {
+		    //printf("Found Type B Alarm to Delete\n");
+	       	    alarmToDelete = next->alarmNum;
+		    previous->link = next->link;
+		    next->linked = 0;
+		    break;
+	        }
+	    	previous = next;
+	    	next = next->link;
+	    }
+	    //printAlarmList();
+    	    next = head->link;
+	    previous = head;
+	    while (next != tail)
+	    {
+	        if(next->alarmNum == alarmToDelete)
+	        {
+		    next->linked = 0;
+		    previous->link = next->link;
+		    break;
+	        }
+		previous = next;
+	        next = next->link;
+	     }
+	     //printAlarmList();
+	}
 	printf("Alarm Request With Message Number(%d) Proccessed at %d: %s\n",
 		alarm->alarmNum, time(NULL), alarm->message);
         //alarm = alarm_list;
@@ -355,6 +413,13 @@ int main (int argc, char *argv[])
     pthread_t thread;
     int flag;
 
+    tail = (alarm_t*)malloc(sizeof(alarm_t));
+    head = (alarm_t*)malloc(sizeof(alarm_t));
+    tail->link = NULL;
+    tail->alarmNum = 9999;
+    head->link = tail;
+    head->alarmNum = -1;
+    //printAlarmList();
     status = pthread_create (
         &thread, NULL, alarm_thread, NULL);
     if (status != 0)
