@@ -1,0 +1,16 @@
+Alarm> 20 Message(1) test1
+First Alarm Request With Message Number (1) Received at 1491087033: test1
+Alarm> 20 Message(1) test2
+First Alarm Request With Message Number (1) Received at 1491087039: test2
+Alarm> 20 Message(1) test3
+Replacement Alarm Request With Message Number (1) Received at 1491087043: test3
+Alarm> 20 Message(1) test4
+Replacement Alarm Request With Message Number (1) Received at 1491087049: test4
+Alarm> 20 Message(1) (20) test1
+test5
+First Alarm Request With Message Number (1) Received at 1491087058: test5
+Alarm> Cancel: Message(1)
+Cancel Alarm Request With Message Number (1) Received at 1491087067: Cancel command
+Alarm> (20) test4
+(0) Cancel command
+(20) test5

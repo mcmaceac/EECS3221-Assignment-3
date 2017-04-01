@@ -1,0 +1,12 @@
+Alarm> Cancel: Message(4)
+Error: No Alarm Request With Message Number (4) to Cancel!
+Alarm> Cancel: Message(1)
+Error: No Alarm Request With Message Number (1) to Cancel!
+Alarm> 30 Message(1) Message 1 to be cancelled soon
+First Alarm Request With Message Number (1) Received at 1491086152: Message 1 to be cancelled soon
+Alarm> Cancel: Message(1)
+Cancel Alarm Request With Message Number (1) Received at 1491086167: Cancel command
+Alarm> 10 Message(1) Message 1
+Replacement Alarm Request With Message Number (1) Received at 1491086212: Message 1
+Alarm> 2 Message(2) Message 2
+First Alarm Request With Message Number (2) Received at 1491086255: Message 2
