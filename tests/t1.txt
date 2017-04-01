@@ -1,12 +1,41 @@
 Alarm> Cancel: Message(4)
 Error: No Alarm Request With Message Number (4) to Cancel!
-Alarm> Cancel: Message(1)
-Error: No Alarm Request With Message Number (1) to Cancel!
 Alarm> 30 Message(1) Message 1 to be cancelled soon
-First Alarm Request With Message Number (1) Received at 1491086152: Message 1 to be cancelled soon
-Alarm> Cancel: Message(1)
-Cancel Alarm Request With Message Number (1) Received at 1491086167: Cancel command
+First Alarm Request With Message Number (1) Received at 1491088305: Message 1 to be cancelled soon
+Alarm> Alarm Request With Message Number(1) Proccessed at 1491088305: Message 1 to be cancelled soon
+Alarm With Message Number (1) Displayed at 1491088305: Message 1 to be cancelled soon
+Cancel Message(1)
+Bad command
+Alarm> Cancel Message(1)
+Bad command
+Alarm> Alarm With Message Number (1) Displayed at 1491088335: Message 1 to be cancelled soon
+
 Alarm> 10 Message(1) Message 1
-Replacement Alarm Request With Message Number (1) Received at 1491086212: Message 1
+Replacement Alarm Request With Message Number (1) Received at 1491088354: Message 1
 Alarm> 2 Message(2) Message 2
-First Alarm Request With Message Number (2) Received at 1491086255: Message 2
+First Alarm Request With Message Number (2) Received at 1491088363: Message 2
+Alarm> Alarm Request With Message Number(2) Proccessed at 1491088363: Message 2
+Alarm With Message Number (2) Displayed at 1491088363: Message 2
+Alarm With Message Number (2) Displayed at 1491088365: Message 2
+Alarm With Message Number (1) Replaced at 1491088365: Message 1
+Alarm With Message Number (2) Displayed at 1491088367: Message 2
+Alarm With Message Number (2) Displayed at 1491088369: Message 2
+Alarm With Message Number (2) Displayed at 1491088371: Message 2
+Alarm With Message Number (2) Displayed at 1491088373: Message 2
+Alarm With Message Number (2) Displayed at 1491088375: Message 2
+Replacement Alarm With Message Number (1) Displayed at 1491088375: Message 1
+Alarm With Message Number (2) Displayed at 1491088377: Message 2
+Alarm With Message Number (2) Displayed at 1491088379: Message 2
+Alarm With Message Number (2) Displayed at 1491088381: Message 2
+Alarm With Message Number (2) Displayed at 1491088383: Message 2
+Alarm With Message Number (2) Displayed at 1491088385: Message 2
+Replacement Alarm With Message Number (1) Displayed at 1491088385: Message 1
+Alarm With Message Number (2) Displayed at 1491088387: Message 2
+Alarm With Message Number (2) Displayed at 1491088389: Message 2
+Alarm With Message Number (2) Displayed at 1491088391: Message 2
+Alarm With Message Number (2) Displayed at 1491088393: Message 2
+Alarm With Message Number (2) Displayed at 1491088395: Message 2
+Replacement Alarm With Message Number (1) Displayed at 1491088395: Message 1
+Alarm With Message Number (2) Displayed at 1491088397: Message 2
+Alarm With Message Number (2) Displayed at 1491088399: Message 2
+Alarm With Message Number (2) Displayed at 1491088401: Message 2

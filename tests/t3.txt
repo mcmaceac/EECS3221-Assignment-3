@@ -1,28 +1,21 @@
-Alarm> 5 Message(1) First message
-First Alarm Request With Message Number (1) Received at 1491086388: First message
-Alarm> (5) First message
+Alarm> 10 Message(1) First
+First Alarm Request With Message Number (1) Received at 1491088534: First
+Alarm> Alarm Request With Message Number(1) Proccessed at 1491088534: First
+Alarm With Message Number (1) Displayed at 1491088534: First
+10 Message(1) Second
+Replacement Alarm Request With Message Number (1) Received at 1491088542: Second
+Alarm> Alarm With Message Number (1) Replaced at 1491088544: Second
+Replacement Alarm With Message Number (1) Displayed at 1491088554: Second
+10 Message(1) Third
+Replacement Alarm Request With Message Number (1) Received at 1491088559: Third
+Alarm> Replacement Alarm With Message Number (1) Displayed at 1491088564: Third
+Replacement Alarm With Message Number (1) Displayed at 1491088574: Third
+20 Message(1) Fourth
+Replacement Alarm Request With Message Number (1) Received at 1491088578: Fourth
+Alarm> Replacement Alarm With Message Number (1) Displayed at 1491088584: Fourth
+Replacement Alarm With Message Number (1) Displayed at 1491088604: Fourth
+Cancel: Message(1)
+Cancel Alarm Request With Message Number (1) Received at 1491088611: Cancel command
+Alarm> Alarm Request With Message Number(1) Proccessed at 1491088611: Cancel command
 
-Alarm> 5 Message(1) Second Message
-First Alarm Request With Message Number (1) Received at 1491086421: Second Message
-Alarm> (5) Second Message
-
-Alarm> 5 Message(1) Third Message
-First Alarm Request With Message Number (1) Received at 1491086437: Third Message
-Alarm> (5) Third Message
-
-Alarm> 10 Message(1) Fourth Message
-First Alarm Request With Message Number (1) Received at 1491086458: Fourth Message
-Alarm> Cancel: Message(1)
-Error: No Alarm Request With Message Number (1) to Cancel!
-Alarm> (10) Fourth Message
-
-Alarm> 20 Message(1) Fifth Message
-First Alarm Request With Message Number (1) Received at 1491086496: Fifth Message
-Alarm> 20 Message(1) Sixth Message
-First Alarm Request With Message Number (1) Received at 1491086506: Sixth Message
-Alarm> Cancel: Message(1)
-Cancel Alarm Request With Message Number (1) Received at 1491086513: Cancel command
-Alarm> (20) Fifth Message
-(0) Cancel command
-
-Alarm> (20) Sixth Message
+Alarm>
