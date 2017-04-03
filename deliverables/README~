@@ -1,0 +1,24 @@
+1. First copy the files "New_Alarm_Cond.c", "errors.h" and "make" into your
+   own directory.
+
+2. To compile our program use the following command (our make file):
+
+      make
+
+3. Type "a.out" to run the executable code.
+
+4. At the prompt "alarm>", For alarm of type A, type in the number of seconds 
+   which is the frequency at which the alarm will be periodically displayed, 
+   followed by "Message(number)", where the number indicates the alarm number,
+   followed by the text of the message.
+   For example:
+
+   alarm> 10 Message(1) Good Morning!
+
+   For alarm of type B, type in "Cancel: Message(number)" where number is the
+   alarm number to cancel.
+   for example:
+  
+   alarm> Cancel: Message(1)
+
+  (To exit from the program, type Ctrl-d or Ctrl-c)
