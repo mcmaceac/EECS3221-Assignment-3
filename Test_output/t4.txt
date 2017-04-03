@@ -1,41 +1,51 @@
 Alarm> 3 Message(1) Testin
-First Alarm Request With Message Number (1) Received at 1491088439: Testin
-Alarm> Alarm Request With Message Number(1) Proccessed at 1491088439: Testin
-Alarm With Message Number (1) Displayed at 1491088439: Testin
+First Alarm Request With Message Number (1) Received at 1491244306: 3 Message(1) Testin
+Alarm> Alarm Request With Message Number (1) Proccessed at 1491244306: 3 Message(1) Testin
+Alarm With Message Number (1) Displayed at 1491244306: 3 Message(1) Testin
+Alarm With Message Number (1) Displayed at 1491244309: 3 Message(1) Testin
 3 Message(1) Testin
-Replacement Alarm Request With Message Number (1) Received at 1491088439: Testin
-Alarm> 3 Message(1) Testin
-Replacement Alarm Request With Message Number (1) Received at 1491088440: Testin
-Alarm> 3 Message(1) Testin
-Replacement Alarm Request With Message Number (1) Received at 1491088440: Testin
-Alarm> 3 Message(1) Testin
-Replacement Alarm Request With Message Number (1) Received at 1491088440: Testin
-Alarm> 3 Message(1) Testin
-Replacement Alarm Request With Message Number (1) Received at 1491088440: Testin
-Alarm> 3 Message(1) Testin
-Replacement Alarm Request With Message Number (1) Received at 1491088440: Testin
-Alarm> 3 Message(1) Testin
-Replacement Alarm Request With Message Number (1) Received at 1491088440: Testin
-Alarm> 3 Message(1) Testin
-Replacement Alarm Request With Message Number (1) Received at 1491088440: Testin
-Alarm> 3 Message(1) Testin
-Replacement Alarm Request With Message Number (1) Received at 1491088440: Testin
-Alarm> 3 Message(1) Testin
-Replacement Alarm Request With Message Number (1) Received at 1491088440: Testin
-Alarm> Alarm With Message Number (1) Replaced at 1491088442: Testin
-Replacement Alarm With Message Number (1) Displayed at 1491088445: Testin
-Replacement Alarm With Message Number (1) Displayed at 1491088448: Testin
-Replacement Alarm With Message Number (1) Displayed at 1491088451: Testin
-Replacement Alarm With Message Number (1) Displayed at 1491088454: Testin
-Replacement Alarm With Message Number (1) Displayed at 1491088457: Testin
-Replacement Alarm With Message Number (1) Displayed at 1491088460: Testin
-Replacement Alarm With Message Number (1) Displayed at 1491088463: Testin
-Replacement Alarm With Message Number (1) Displayed at 1491088466: Testin
-Cancel: MessagReplacement Alarm With Message Number (1) Displayed at 1491088469: Testin
-e(Replacement Alarm With Message Number (1) Displayed at 1491088472: Testin
-1)
-Cancel Alarm Request With Message Number (1) Received at 1491088473: Cancel command
-Alarm> Alarm Request With Message Number(1) Proccessed at 1491088473: Cancel command
-Display thread exiting at 1491088475: Testin
+Replacement Alarm Request With Message Number (1) Received at 1491244311: 3 Message(1) Testin
+Alarm> Alarm With Message Number (1) Replaced at 1491244312: 3 Message(1) Testin
+3 Message(1) Testin
+Replacement Alarm Request With Message Number (1) Received at 1491244313: 3 Message(1) Testin
+Alarm> 3 Message(1) TestinReplacement Alarm With Message Number (1) Displayed at 1491244315: 3 Message(1) Testin
 
-Alarm>
+Replacement Alarm Request With Message Number (1) Received at 1491244315: 3 Message(1) Testin
+Alarm> 3 Message(1) Testin
+Replacement Alarm Request With Message Number (1) Received at 1491244317: 3 Message(1) Testin
+Alarm> Replacement Alarm With Message Number (1) Displayed at 1491244318: 3 Message(1) Testin
+3 Message(1) Testin
+Replacement Alarm Request With Message Number (1) Received at 1491244320: 3 Message(1) Testin
+Alarm> 3 Message(1) TestinReplacement Alarm With Message Number (1) Displayed at 1491244321: 3 Message(1) Testin
+
+Replacement Alarm Request With Message Number (1) Received at 1491244321: 3 Message(1) Testin
+Alarm> 3 Message(1) Testin
+Replacement Alarm Request With Message Number (1) Received at 1491244323: 3 Message(1) Testin
+Alarm> Replacement Alarm With Message Number (1) Displayed at 1491244324: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244327: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244330: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244333: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244336: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244339: 3 Message(1) Testin
+3 Message(1) Testin
+Replacement Alarm Request With Message Number (1) Received at 1491244340: 3 Message(1) Testin
+Alarm> Replacement Alarm With Message Number (1) Displayed at 1491244342: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244345: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244348: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244351: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244354: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244357: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244360: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244363: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244366: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244369: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244372: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244375: 3 Message(1) Testin
+Replacement Alarm With Message Number (1) Displayed at 1491244378: 3 Message(1) Testin
+Cancel: Message(1)
+Cancel Alarm Request With Message Number (1) Received at 1491244380: Cancel: Message(1)
+Alarm> Alarm Request With Message Number(1) Proccessed at 1491244380: Cancel: Message(1)
+Display thread exiting at 1491244381: 3 Message(1) Testin
+
+Alarm> 
+

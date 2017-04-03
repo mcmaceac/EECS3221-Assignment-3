@@ -1,104 +1,157 @@
 Alarm> 2 Message(1) one
-First Alarm Request With Message Number (1) Received at 1491089306: one
-Alarm> Alarm Request With Message Number(1) Proccessed at 1491089306: one
-Alarm With Message Number (1) Displayed at 1491089306: one
+First Alarm Request With Message Number (1) Received at 1491244748: 2 Message(1) one
+Alarm> Alarm Request With Message Number (1) Proccessed at 1491244748: 2 Message(1) one
+Alarm With Message Number (1) Displayed at 1491244748: 2 Message(1) one
+Alarm With Message Number (1) Displayed at 1491244750: 2 Message(1) one
+Alarm With Message Number (1) Displayed at 1491244752: 2 Message(1) one
+Alarm With Message Number (1) Displayed at 1491244754: 2 Message(1) one
 2 Message(2) two
-First Alarm Request With Message Number (2) Received at 1491089306: two
-Alarm> Alarm Request With Message Number(2) Proccessed at 1491089306: two
-Alarm With Message Number (2) Displayed at 1491089306: two
+First Alarm Request With Message Number (2) Received at 1491244754: 2 Message(2) two
+Alarm> Alarm Request With Message Number (2) Proccessed at 1491244754: 2 Message(2) two
+Alarm With Message Number (2) Displayed at 1491244754: 2 Message(2) two
+Alarm With Message Number (1) Displayed at 1491244756: 2 Message(1) one
+Alarm With Message Number (2) Displayed at 1491244756: 2 Message(2) two
+Alarm With Message Number (1) Displayed at 1491244758: 2 Message(1) one
+Alarm With Message Number (2) Displayed at 1491244758: 2 Message(2) two
+Alarm With Message Number (1) Displayed at 1491244760: 2 Message(1) one
+Alarm With Message Number (2) Displayed at 1491244760: 2 Message(2) two
 2 Message(3) three
-First Alarm Request With Message Number (3) Received at 1491089306: three
-Alarm> Alarm Request With Message Number(3) Proccessed at 1491089306: three
-Alarm With Message Number (3) Displayed at 1491089306: three
+First Alarm Request With Message Number (3) Received at 1491244760: 2 Message(3) three
+Alarm> Alarm Request With Message Number (3) Proccessed at 1491244760: 2 Message(3) three
+Alarm With Message Number (3) Displayed at 1491244760: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244762: 2 Message(1) one
+Alarm With Message Number (2) Displayed at 1491244762: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244762: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244764: 2 Message(1) one
+Alarm With Message Number (2) Displayed at 1491244764: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244764: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244766: 2 Message(1) one
+Alarm With Message Number (2) Displayed at 1491244766: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244766: 2 Message(3) three
 2 Message(2) two
-Replacement Alarm Request With Message Number (2) Received at 1491089307: two
+Replacement Alarm Request With Message Number (2) Received at 1491244767: 2 Message(2) two
+Alarm> Alarm With Message Number (1) Displayed at 1491244768: 2 Message(1) one
+Alarm With Message Number (2) Replaced at 1491244768: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244768: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244770: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244770: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244770: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244772: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244772: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244772: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244774: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244774: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244774: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244776: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244776: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244776: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244778: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244778: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244778: 2 Message(3) three
 Alarm> 2 Message(1) one
-Replacement Alarm Request With Message Number (1) Received at 1491089307: one
+Bad command
+Alarm> Alarm With Message Number (1) Displayed at 1491244780: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244780: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244780: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244782: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244782: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244782: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244784: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244784: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244784: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244786: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244786: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244786: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244788: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244788: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244788: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244790: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244790: 2 Message(2) two
 Alarm> 2 Message(2) two
-Replacement Alarm Request With Message Number (2) Received at 1491089307: two
+Bad command
+Alarm> Alarm With Message Number (3) Displayed at 1491244790: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244792: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244792: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244792: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244794: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244794: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244794: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244796: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244796: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244796: 2 Message(3) three
 Alarm> 2 Message(3) three
-Replacement Alarm Request With Message Number (3) Received at 1491089308: three
-Alarm> 2 Message(2) twoAlarm With Message Number (1) Replaced at 1491089308: one
-
-Replacement Alarm Request With Message Number (2) Received at 1491089308: two
+Bad command
+Alarm> Alarm With Message Number (1) Displayed at 1491244798: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244798: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244798: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244800: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244800: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244800: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244802: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244802: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244802: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244804: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244804: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244804: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244806: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244806: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244806: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244808: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244808: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244808: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244810: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244810: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244810: 2 Message(3) three
 Alarm> 2 Message(1) one
-Replacement Alarm Request With Message Number (1) Received at 1491089308: one
-Alarm> Alarm With Message Number (2) Replaced at 1491089308: two
-2 Message(2) two
-Replacement Alarm Request With Message Number (2) Received at 1491089308: two
-Alarm> Alarm With Message Number (3) Replaced at 1491089308: three
-2 Message(3) three
-Replacement Alarm Request With Message Number (3) Received at 1491089309: three
-Alarm> 2 Message(2) two
-Replacement Alarm Request With Message Number (2) Received at 1491089309: two
-Alarm> 2 Message(1) one
-Replacement Alarm Request With Message Number (1) Received at 1491089309: one
-Alarm> 2 Message(2) two
-Replacement Alarm Request With Message Number (2) Received at 1491089309: two
-Alarm> 2 Message(3) three
-Replacement Alarm Request With Message Number (3) Received at 1491089310: three
-Alarm> Replacement Alarm With Message Number (1) Displayed at 1491089310: one
-2 Message(2) two
-Replacement Alarm Request With Message Number (2) Received at 1491089310: two
-Alarm> Replacement Alarm With Message Number (2) Displayed at 1491089310: two
-2 Message(1) one
-Replacement Alarm Request With Message Number (1) Received at 1491089310: one
-Alarm> Replacement Alarm With Message Number (3) Displayed at 1491089310: three
-2 Message(2) two
-Replacement Alarm Request With Message Number (2) Received at 1491089310: two
-Alarm> 2 Message(3) three
-Replacement Alarm Request With Message Number (3) Received at 1491089311: three
-Alarm> Replacement Alarm With Message Number (1) Displayed at 1491089312: one
-Replacement Alarm With Message Number (2) Displayed at 1491089312: two
-Replacement Alarm With Message Number (3) Displayed at 1491089312: three
+Bad command
+Alarm> Alarm With Message Number (1) Displayed at 1491244812: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244812: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244812: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244814: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244814: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244814: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244816: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244816: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244816: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244818: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244818: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244818: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244820: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244820: 2 Message(2) two
+Alarm With Message Number (3) Displayed at 1491244820: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244822: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244822: 2 Message(2) two
 Cancel: Message(3)
-Cancel Alarm Request With Message Number (3) Received at 1491089313: Cancel command
-Alarm> Alarm Request With Message Number(3) Proccessed at 1491089313: Cancel command
-Replacement Alarm With Message Number (1) Displayed at 1491089314: one
-Replacement Alarm With Message Number (2) Displayed at 1491089314: two
-Display thread exiting at 1491089314: three
-Replacement Alarm With Message Number (1) Displayed at 1491089316: one
-Replacement Alarm With Message Number (2) Displayed at 1491089316: two
-Replacement Alarm With Message Number (1) Displayed at 1491089318: one
-Replacement Alarm With Message Number (2) Displayed at 1491089318: two
-Replacement Alarm With Message Number (1) Displayed at 1491089320: one
-Replacement Alarm With Message Number (2) Displayed at 1491089320: two
-Replacement Alarm With Message Number (1) Displayed at 1491089322: one
-Replacement Alarm With Message Number (2) Displayed at 1491089322: two
-Replacement Alarm With Message Number (1) Displayed at 1491089324: one
-Replacement Alarm With Message Number (2) Displayed at 1491089324: two
-Replacement Alarm With Message Number (1) Displayed at 1491089326: one
-Replacement Alarm With Message Number (2) Displayed at 1491089326: two
-Replacement Alarm With Message Number (1) Displayed at 1491089328: one
-Replacement Alarm With Message Number (2) Displayed at 1491089328: two
-Replacement Alarm With Message Number (1) Displayed at 1491089330: one
-Replacement Alarm With Message Number (2) Displayed at 1491089330: two
-Replacement Alarm With Message Number (1) Displayed at 1491089332: one
-Replacement Alarm With Message Number (2) Displayed at 1491089332: two
-Replacement Alarm With Message Number (1) Displayed at 1491089334: one
-Replacement Alarm With Message Number (2) Displayed at 1491089334: two
-Replacement Alarm With Message Number (1) Displayed at 1491089336: one
-Replacement Alarm With Message Number (2) Displayed at 1491089336: two
-Replacement Alarm With Message Number (1) Displayed at 1491089338: one
-Replacement Alarm With Message Number (2) Displayed at 1491089338: two
-Cancel: MessReplacement Alarm With Message Number (1) Displayed at 1491089340: one
-age(1)
-Cancel Alarm Request With Message Number (1) Received at 1491089340: Cancel command
-Alarm> Alarm Request With Message Number(1) Proccessed at 1491089340: Cancel command
-Replacement Alarm With Message Number (2) Displayed at 1491089340: two
-Display thread exiting at 1491089342: one
-Replacement Alarm With Message Number (2) Displayed at 1491089342: two
-Replacement Alarm With Message Number (2) Displayed at 1491089344: two
-Replacement Alarm With Message Number (2) Displayed at 1491089346: two
-Replacement Alarm With Message Number (2) Displayed at 1491089348: two
-Replacement Alarm With Message Number (2) Displayed at 1491089350: two
-Replacement Alarm With Message Number (2) Displayed at 1491089352: two
-Replacement Alarm With Message Number (2) Displayed at 1491089354: two
-Replacement Alarm With Message Number (2) Displayed at 1491089356: two
-Replacement Alarm With Message Number (2) Displayed at 1491089358: two
+Cancel Alarm Request With Message Number (3) Received at 1491244822: Cancel: Message(3)
+Alarm> Alarm Request With Message Number(3) Proccessed at 1491244822: Cancel: Message(3)
+Display thread exiting at 1491244822: 2 Message(3) three
+Alarm With Message Number (1) Displayed at 1491244824: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244824: 2 Message(2) two
+Alarm With Message Number (1) Displayed at 1491244826: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244826: 2 Message(2) two
+Alarm With Message Number (1) Displayed at 1491244828: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244828: 2 Message(2) two
+Alarm With Message Number (1) Displayed at 1491244830: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244830: 2 Message(2) two
+Alarm With Message Number (1) Displayed at 1491244832: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244832: 2 Message(2) two
+Alarm With Message Number (1) Displayed at 1491244834: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244834: 2 Message(2) two
+Alarm With Message Number (1) Displayed at 1491244836: 2 Message(1) one
+Replacement Alarm With Message Number (2) Displayed at 1491244836: 2 Message(2) two
 Cancel: Message(2)
-Cancel Alarm Request With Message Number (2) Received at 1491089359: Cancel command
-Alarm> Alarm Request With Message Number(2) Proccessed at 1491089359: Cancel command
-Display thread exiting at 1491089360: two
+Cancel Alarm Request With Message Number (2) Received at 1491244836: Cancel: Message(2)
+Alarm> Alarm Request With Message Number(2) Proccessed at 1491244836: Cancel: Message(2)
+Alarm With Message Number (1) Displayed at 1491244838: 2 Message(1) one
+Display thread exiting at 1491244838: 2 Message(2) two
+Alarm With Message Number (1) Displayed at 1491244840: 2 Message(1) one
+Alarm With Message Number (1) Displayed at 1491244842: 2 Message(1) one
+Alarm With Message Number (1) Displayed at 1491244844: 2 Message(1) one
+Alarm With Message Number (1) Displayed at 1491244846: 2 Message(1) one
+Cancel: Message(1)
+Cancel Alarm Request With Message Number (1) Received at 1491244846: Cancel: Message(1)
+Alarm> Alarm Request With Message Number(1) Proccessed at 1491244846: Cancel: Message(1)
+Display thread exiting at 1491244848: 2 Message(1) one
 
-Alarm>
+Alarm> 
+
