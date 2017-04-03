@@ -165,15 +165,17 @@ void alarm_insert (alarm_t *alarm)
 		if(flagA) 
 		{
 		    printf("Replacement Alarm Request With Message Number (%d) " 	
-		           "Received at %d: %s\n",alarm->alarmNum, time(NULL),
-		   	alarm->message);
-            replaceAlarmA(alarm);
+		           "Received at %d: %d Message(%d) %s\n",
+			   alarm->alarmNum, time(NULL), alarm->seconds, 
+			   alarm->alarmNum, alarm->message);
+            	    replaceAlarmA(alarm);
 		}
 		if (!flagA)
 		{
 		    printf("First Alarm Request With Message Number (%d) " 	
-		           "Received at %d: %s\n",alarm->alarmNum, time(NULL),
-		           alarm->message);
+		           "Received at %d: %d Message(%d) %s\n",
+			   alarm->alarmNum, time(NULL), alarm->seconds,
+		           alarm->alarmNum, alarm->message);
 		    previous = head;
 		    next = head->link;
 		    while (next != tail) 
@@ -212,11 +214,11 @@ void alarm_insert (alarm_t *alarm)
 		    else
 		    {
 				printf("Cancel Alarm Request With Message Number (%d) " 	
-				       "Received at %d: %s\n",alarm->alarmNum, time(NULL),
-				       alarm->message);
+				       "Received at %d: Cancel: Message(%d)\n",
+						alarm->alarmNum, time(NULL),alarm->alarmNum);
 				previous = head;
 			    next = head->link;
-				while (next != tail) 
+				while (next != tail)
 		 		{
 				    if (next->alarmNum >= alarm->alarmNum) 
 				    {
@@ -272,7 +274,9 @@ void *periodic_display_thread (void *arg)
 		sleeptime = alarm->seconds;
 		if(alarm->linked == 0)
 		{
-		    printf("Display thread exiting at %d: %s\n", time(NULL), alarm->message);
+		    printf("Display thread exiting at %d: %d Message(%d) %s\n",
+			time(NULL), alarm->seconds, alarm->alarmNum,
+			alarm->message);
 
 		    /* Reader unlocking setup before thread termination*/
 		    status = pthread_mutex_lock (&mutex);
@@ -293,17 +297,23 @@ void *periodic_display_thread (void *arg)
 		    return NULL;
 		}
 		if (alarm->modified == 0)
-		    printf("Alarm With Message Number (%d) Displayed at %d: %s\n",
-	    		alarm->alarmNum, time(NULL), alarm->message);
+		    printf("Alarm With Message Number (%d) Displayed at %d: "
+			"%d Message(%d) %s\n",
+			alarm->alarmNum, time(NULL), alarm->seconds, alarm->alarmNum,
+			alarm->message);
 		if (alarm->modified == 1 && flag)
 		{
 		    printf("Replacement Alarm With Message Number (%d) Displayed at "
-			   "%d: %s\n", alarm->alarmNum, time(NULL), alarm->message);
+			   "%d: %d Message(%d) %s\n",
+			alarm->alarmNum, time(NULL), alarm->seconds, alarm->alarmNum,
+			alarm->message);
 		}
 		if (alarm->modified == 1 && !flag)
 		{
-		    printf("Alarm With Message Number (%d) Replaced at %d: %s\n",
-				alarm->alarmNum, time(NULL), alarm->message);
+		    printf("Alarm With Message Number (%d) Replaced at %d: "
+			"%d Message(%d) %s\n",
+			alarm->alarmNum, time(NULL), alarm->seconds, alarm->alarmNum,
+			alarm->message);
 		    flag = 1;
 		}
 		/* Reading is done */	
@@ -378,8 +388,10 @@ void *alarm_thread (void *arg)
 		}
 		if (alarm != NULL && alarm->type == 1)
 		{
-		    printf("Alarm Request With Message Number(%d) Proccessed at %d: %s\n",
-			alarm->alarmNum, time(NULL), alarm->message);
+		    printf("Alarm Request With Message Number (%d) Proccessed at %d: "
+			"%d Message(%d) %s\n",
+			alarm->alarmNum, time(NULL), alarm->seconds, alarm->alarmNum,
+			alarm->message);
 		    status = pthread_create (
 	                &thread, NULL, periodic_display_thread, alarm);
     	    if (status != 0)
@@ -436,8 +448,9 @@ void *alarm_thread (void *arg)
 				previous = next;
 		        next = next->link;
 		     }
-		    printf("Alarm Request With Message Number(%d) Proccessed at %d: %s\n",
-			alarm->alarmNum, time(NULL), alarm->message);
+		    printf("Alarm Request With Message Number(%d) Proccessed at %d: "
+			"Cancel: Message(%d)\n",
+			alarm->alarmNum, time(NULL),alarm->alarmNum);
 		    status = pthread_mutex_unlock (&rw_mutex);
 		    if (status != 0)
 		    	err_abort (status, "Lock mutex");
